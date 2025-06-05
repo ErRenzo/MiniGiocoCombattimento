@@ -1,0 +1,73 @@
+body{
+    margin: 0;
+}
+.game{
+    width: 100%;
+    height: 600px;
+    display: flex;
+}
+img{
+    height: 600px;
+    width: 300px;
+}
+.player1{
+    margin-left: 10px;
+}
+.player2{
+    margin-right: 10px;
+}
+.gameIn{
+    align-content: center;
+    margin-left: 100px;
+    margin-right: 100px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: lightgray;
+}
+.hpBar{
+    display: flex;
+}
+.txtVita{
+    font-size: 17px;
+    margin: 0px;
+}
+#btnRestart{
+    text-align: center;
+}
+#turn{
+    align-items: top;
+}
+#live{
+    margin-top: 50px;
+}
+#dmg{
+    margin-top: 50px;
+}
+#hp{
+    margin-top: 50px;
+}
+#att1{
+    background-color: blue;
+    color: white;
+    width: 100px;
+}
+#dif1{
+    background-color: blue;
+    color: white;
+    width: 100px;
+}
+#att2{
+    background-color: yellow;
+    color: black;
+    width: 100px;
+}
+#dif2{
+    background-color: yellow;
+    color: black;
+    width: 100px;
+}
+#spazioVite{
+    width: 2900px;
+    align-items: center;
+}
