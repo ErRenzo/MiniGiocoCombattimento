@@ -7,41 +7,43 @@
     <title>Gioco di combattimento</title>
 </head>
 <body>
-    <div class="game">
-        <div class="player1">
-            <img src="immagini/SubZero.jpg">
-        </div>
-        <div class="gameIn">
-            <h1 style="color: brown;">Gioco di combattimento</h1>
-            <hr>
-            <div id="turn">
-                <h1 id="turnWho">Il turno sarà dato al.....</h1>
-                <button id="turnButton" onclick="Turn()">Turno</button>
+    <div class="container-fluid base">   
+        <div class="game">
+            <div class="player1">
+                <img src="immagini/blueStickManFighter.png">
             </div>
-            <hr>
-            <button id="att" onclick="btnAttacco()">Attacca</button>
-            <button id ="dif" onclick="btnDifendi()">Difendi</button>
-            <div id="live"></div>
+            <div class="gameIn">
+                <h1 style="color: brown;">Gioco di combattimento</h1>
+                <hr>
+                <div id="turn">
+                    <h1 id="turnWho">Il turno sarà dato al.....</h1>
+                    <button id="turnButton" onclick="Turn()">Turno</button>
+                </div>
+                <hr>
+                <button id="att" onclick="btnAttacco()">Attacca</button>
+                <button id ="dif" onclick="btnDifendi()">Difendi</button>
+                <div id="live"></div>
+            </div>
+            <div class="player2">
+                <img src="immagini/yellowStickManFighter.png">
+            </div>
         </div>
-        <div class="player2">
-            <img src="immagini/Scorpion.jpg">
-        </div>
-    </div>
-    <div class="hpBar">
-        <div class="container mt-3">
-            <div class="progress">
-                <div id="hpBar1" class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:100%">
-                    <h1 class="txtVita" id="vita1">100hp</h1>
+        <div class="hpBar">
+            <div class="container mt-3">
+                <div class="progress">
+                    <div id="hpBar1" class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:100%">
+                        <h1 class="txtVita" id="vita1">100hp</h1>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container mt-3" id="spazioVite">
-            <div id="btnRestart"></div>
-        </div>
-        <div class="container mt-3">
-            <div class="progress">
-                <div id="hpBar2" class="progress-bar bg-warning progress-bar-striped progress-bar-animated" style="width:100%">
-                    <h1 class="txtVita" id="vita2">100hp</h1>
+            <div class="container mt-3" id="spazioVite">
+                <div id="btnRestart"></div>
+            </div>
+            <div class="container mt-3">
+                <div class="progress">
+                    <div id="hpBar2" class="progress-bar bg-warning progress-bar-striped progress-bar-animated" style="width:100%">
+                        <h1 class="txtVita" id="vita2">100hp</h1>
+                    </div>
                 </div>
             </div>
         </div>

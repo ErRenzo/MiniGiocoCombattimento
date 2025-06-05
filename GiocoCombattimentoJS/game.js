@@ -121,6 +121,7 @@ function Vittoria(danno)
         document.getElementById('att').hidden = true; // Nasconde il bottone attacco
         document.getElementById('dif').hidden = true; // Nasconde il bottone difesa
         const bottone = document.createElement('button');
+        bottone.style.backgroundColor = "yellow"; // Colore del bottone
         bottone.innerHTML = "Inizia una nuova partita";
 
         bottone.addEventListener('click', function() {location.reload()}); // Ricarica la pagina per iniziare una nuova partita
@@ -137,6 +138,7 @@ function Vittoria(danno)
         document.getElementById('att').hidden = true; // Nasconde il bottone attacco
         document.getElementById('dif').hidden = true; // Nasconde il bottone difesa
         const bottone = document.createElement('button');
+        bottone.style.backgroundColor = "blue"; // Colore del bottone
         bottone.innerHTML = "Inizia una nuova partita";
     
         bottone.addEventListener('click', function() {location.reload()}); // Ricarica la pagina per iniziare una nuova partita
