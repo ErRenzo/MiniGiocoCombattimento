@@ -1,13 +1,14 @@
 // Variabili globali, vita totale e difesa attiva, gestione turni
-var unaSceltaTurno = 0;
-var turno = 0;
-var player1Hp = 100;
-var player2Hp = 100;
-var dif1 = false;
-var dif2 = false;
+let turnoScelto = false;
+let turno = 0; // 1 = primo player, 2 = secondo player
+// Vita dei player, 100hp per entrambi i player
+let player1Hp = 100;
+let player2Hp = 100;
+let dif1 = false;
+let dif2 = false;
 // Turno
 function Turn(){
-    if(unaSceltaTurno == 0)
+    if(!turnoScelto)
     {
         const random = Math.floor(Math.random() * 2) + 1;
         turno = random;
@@ -20,123 +21,91 @@ function Turn(){
             document.getElementById('turnWho').innerHTML = "Turno del secondo player";
             document.getElementById('turnWho').style.color = "yellow";
         }
+        coloreTurno(); // Colore del turno attuale
+        turnoScelto = true;
     }
-    else{
+    else{ // Se il turno è già stato scelto
         alert("Il turno è già stato scelto");
     }
-    unaSceltaTurno++;
 }
 // Gioco, conseguenze del attacco e della difesa
-function btnAttacco1(){
-    if(turno == 1 && turno != 0)
+function btnAttacco(){
+    if(turnoScelto)
     {
-        document.getElementById('turnWho').innerHTML = "Turno del secondo player";
-        document.getElementById('turnWho').style.color = "yellow";
-        document.getElementById('live').innerHTML = "Il primo giocatore ha attaccato";
-        document.getElementById('live').style.color = "blue";
-        let danno
-        do{
-            danno = Math.floor(Math.random() * 20);
-        }
-        while(danno == 0)
-        if (dif2 == true)
+        danno = Math.floor(Math.random() * 20) + 1; // Danno casuale tra 1 e 20
+        dannoDimezzato = Math.floor(danno / 2); // Danno dimezzato
+        let dimezzati = "";
+        if(turno == 1) // Primo player
         {
-            document.getElementById('dmg').innerHTML = "Il primo giocatore ha inflitto danni dimezzati " + danno * 0.5 + " danni";
-            document.getElementById('dmg').style.color = "blue";
+            if(dif2) // Se il secondo player ha attivato la difesa
+            {
+                player2Hp -= dannoDimezzato; // Danno dimezzato
+                dif2 = false; // Difesa disattivata
+                dimezzati = "dimezzati";
+            }
+            else
+            {
+                dimezzati = "";
+                player2Hp -= danno;
+            }
+            document.getElementById('turnWho').innerHTML = "Turno del secondo player";
+            turno = 2;
+            document.getElementById('turnWho').style.color = "yellow";
+            document.getElementById('live').innerHTML = "Il primo giocatore ha attaccato il secondo giocatore, infliggendo "+danno+" danni "+dimezzati+" !";
         }
-        else{
-            document.getElementById('dmg').innerHTML = "Il primo giocatore ha inflitto " + danno + " danni al avversario";
-            document.getElementById('dmg').style.color = "blue";
+        else // Secondo player
+        {
+            if(dif1) // Se il primo player ha attivato la difesa
+            {
+                player1Hp -= dannoDimezzato; // Danno dimezzato
+                dif1 = false; // Difesa disattivata
+                dimezzati = "dimezzati";
+            }
+            else
+            {
+                dimezzati = "";
+                player1Hp -= danno;
+            }
+            document.getElementById('turnWho').innerHTML = "Turno del primo player";
+            turno = 1;
+            document.getElementById('turnWho').style.color = "blue";
+            document.getElementById('live').innerHTML = "Il secondo giocatore ha attaccato il primo giocatore, infliggendo "+danno+" danni "+dimezzati+" !";
         }
-    
-        player2Hp -= danno;
-        document.getElementById('hp').innerHTML = "Al secondo giocatore restano " + player2Hp + " hp";
-        document.getElementById('hp').style.color = "yellow";
-        vitaDinamica();
-        Vittoria(danno);
-        turno = 2;
+        coloreTurno(); // Colore del turno attuale
+        vitaDinamica(); // Aggiorna la vita dinamica dei player
+        Vittoria(danno); // Controlla se uno dei due player ha vinto
     }
-    else if(turno == 0)
+    else
     {
         alert("Scegliere il turno prima di giocare!");
     }
-    else{
-        alert("È il turno del secondo giocatore...");
-    }
 }
-
-function btnAttacco2(){
-    if(turno == 2 && turno != 0)
+function btnDifendi(){
+    if(turnoScelto)
     {
-        document.getElementById('turnWho').innerHTML = "Turno del primo player";
-        document.getElementById('turnWho').style.color = "blue";
-        document.getElementById('live').innerHTML = "Il secondo giocatore ha attaccato";
-        document.getElementById('live').style.color = "yellow";
-        let danno
-        do{
-            danno = Math.floor(Math.random() * 20);
-        }
-        while(danno == 0)
+        if(turno == 1) // Primo player
+        {
+            dif1 = true; // Difesa attivata
+            document.getElementById('live').innerHTML = "Il primo giocatore ha scelto di difendersi!";
             
-        if (dif1 == true)
+            document.getElementById('turnWho').innerHTML = "Turno del secondo player";
+            turno = 2;
+            document.getElementById('turnWho').style.color = "yellow";
+        }
+        else // Secondo player
         {
-            document.getElementById('dmg').innerHTML = "Il secondo giocatore ha inflitto danni dimezzati " + (danno * 0.5) + " danni";
-            document.getElementById('dmg').style.color = "yellow";
+            dif2 = true; // Difesa attivata
+            document.getElementById('live').innerHTML = "Il secondo giocatore ha scelto di difendersi!";
+
+            document.getElementById('turnWho').innerHTML = "Turno del secondo player";
+            turno = 1;
+            document.getElementById('turnWho').style.color = "blue";
         }
-        else{
-            document.getElementById('dmg').innerHTML = "Il secondo giocatore ha inflitto " + danno + " danni al avversario";
-            document.getElementById('dmg').style.color = "yellow";
-        }
-        player1Hp -= danno;
-        document.getElementById('hp').innerHTML = "Al primo giocatore restano " + (player1Hp) + " hp";
-        document.getElementById('hp').style.color = "blue";
-        vitaDinamica();
-        Vittoria(danno);
-        turno = 1;
+        coloreTurno(); // Colore del turno attuale
     }
-    else if(turno == 0)
+    else
     {
         alert("Scegliere il turno prima di giocare!");
-    }
-    else{
-        alert("È il turno del primo giocatore...");
-    }
-}
-
-function btnDifendi1(){
-    if(turno == 1 && turno != 0)
-    {
-        document.getElementById('turnWho').innerHTML = "Turno del secondo player";
-        document.getElementById('turnWho').style.color = "yellow";
-        document.getElementById('live').innerHTML = "Il primo giocatore ha scelto di difendersi, il prossimo attacco nemico sarà dimezzato";
-        dif1 = true;
-        turno = 2;
-    }
-    else if(turno == 0)
-    {
-        alert("Scegliere il turno prima di giocare!");
-    }
-    else{
-        alert("È il turno del secondo giocatore...");
-    }
-}
-
-function btnDifendi2(){
-    if(turno == 2 && turno != 0)
-    {
-        document.getElementById('turnWho').innerHTML = "Turno del primo player";
-        document.getElementById('turnWho').style.color = "blue";
-        document.getElementById('live').innerHTML = "Il secondo giocatore ha scelto di difendersi, il prossimo attacco nemico sarà dimezzato";
-        document.getElementById('live').style.color = "yellow";
-        dif2 = true;
-        turno = 1;
-    }
-    else if(turno == 0)
-    {
-            alert("Scegliere il turno prima di giocare!");
-    }
-    else{
-        alert("È il turno del primo giocatore...");
     }
 }
 // Vittoria e creazione button e iniziare una nuova partita
@@ -145,21 +114,33 @@ function Vittoria(danno)
     if (player1Hp <= 0)
     {
         alert("Il secondo giocatore ha vinto! Infliggendo al nemico " + danno + " danni!");
+        document.getElementById('live').innerHTML = "Il secondo giocatore ha vinto! Infliggendo al nemico " + danno + " danni!";
+        document.getElementById('live').style.color = "yellow"; // Colore del testo della vittoria
+        document.getElementById('live').style.fontSize = "30px"; // Dimensione del testo della vittoria
+        document.getElementById('turn').hidden = true; // Nasconde il turno
+        document.getElementById('att').hidden = true; // Nasconde il bottone attacco
+        document.getElementById('dif').hidden = true; // Nasconde il bottone difesa
         const bottone = document.createElement('button');
         bottone.innerHTML = "Inizia una nuova partita";
 
-        bottone.addEventListener('click', function() {location.reload()});
-
+        bottone.addEventListener('click', function() {location.reload()}); // Ricarica la pagina per iniziare una nuova partita
+        // Aggiunge il bottone al div con id btnRestart
         document.getElementById('btnRestart').appendChild(bottone);
     }
     else if (player2Hp <= 0)
     {
         alert("Il primo giocatore ha vinto! Infliggendo al nemico " + danno + " danni!");
+        document.getElementById('live').innerHTML = "Il primo giocatore ha vinto! Infliggendo al nemico " + danno + " danni!";
+        document.getElementById('live').style.color = "blue"; // Colore del testo della vittoria
+        document.getElementById('live').style.fontSize = "30px"; // Dimensione del testo della vittoria
+        document.getElementById('turn').hidden = true; // Nasconde il turno
+        document.getElementById('att').hidden = true; // Nasconde il bottone attacco
+        document.getElementById('dif').hidden = true; // Nasconde il bottone difesa
         const bottone = document.createElement('button');
         bottone.innerHTML = "Inizia una nuova partita";
     
-        bottone.addEventListener('click', function() {location.reload()});
-    
+        bottone.addEventListener('click', function() {location.reload()}); // Ricarica la pagina per iniziare una nuova partita
+        // Aggiunge il bottone al div con id btnRestart
         document.getElementById('btnRestart').appendChild(bottone);
     }
 }
@@ -170,4 +151,34 @@ function vitaDinamica()
     document.getElementById('vita1').innerHTML = player1Hp + 'hp';
     document.getElementById('hpBar2').style.width = player2Hp + '%';
     document.getElementById('vita2').innerHTML = player2Hp + 'hp';
+}
+// Visualizzazione in colori del turno attuale
+function coloreTurno()
+{
+    if(turno == 1) // Primo player
+    {
+        document.getElementById('live').style.color = "blue";
+
+        document.getElementById('att').style.backgroundColor = "blue";
+        document.getElementById('att').style.color = "white";
+
+        document.getElementById('dif').style.backgroundColor = "blue";
+        document.getElementById('dif').style.color = "white";
+
+        document.getElementById('turnButton').style.backgroundColor = "blue";
+        document.getElementById('turnButton').style.color = "white";
+    }
+    else // Secondo player
+    {
+        document.getElementById('live').style.color = "yellow";
+
+        document.getElementById('att').style.backgroundColor = "yellow";
+        document.getElementById('att').style.color = "black";
+
+        document.getElementById('dif').style.backgroundColor = "yellow";
+        document.getElementById('dif').style.color = "black";
+
+        document.getElementById('turnButton').style.backgroundColor = "yellow";
+        document.getElementById('turnButton').style.color = "black";
+    }
 }

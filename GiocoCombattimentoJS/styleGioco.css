@@ -23,7 +23,7 @@ img{
     width: 100%;
     height: 100%;
     text-align: center;
-    background-color: lightgray;
+    background-color: rgb(129, 128, 128);
 }
 .hpBar{
     display: flex;
@@ -47,24 +47,12 @@ img{
 #hp{
     margin-top: 50px;
 }
-#att1{
-    background-color: blue;
+#att{
     color: white;
     width: 100px;
 }
-#dif1{
-    background-color: blue;
+#dif{
     color: white;
-    width: 100px;
-}
-#att2{
-    background-color: yellow;
-    color: black;
-    width: 100px;
-}
-#dif2{
-    background-color: yellow;
-    color: black;
     width: 100px;
 }
 #spazioVite{

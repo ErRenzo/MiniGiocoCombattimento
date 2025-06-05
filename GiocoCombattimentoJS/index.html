@@ -12,18 +12,16 @@
             <img src="immagini/SubZero.jpg">
         </div>
         <div class="gameIn">
+            <h1 style="color: brown;">Gioco di combattimento</h1>
+            <hr>
             <div id="turn">
                 <h1 id="turnWho">Il turno sarà dato al.....</h1>
-                <button onclick="Turn()">Turno</button>
+                <button id="turnButton" onclick="Turn()">Turno</button>
             </div>
-            <h1>Gioco di combattimento</h1>
-            <button id="att1" onclick="btnAttacco1()">Attacca 1</button>
-            <button id ="dif1" onclick="btnDifendi1()">Difendi 1</button>
-            <button id="att2" onclick="btnAttacco2()">Attacca 2</button>
-            <button id="dif2" onclick="btnDifendi2()">Difendi 2</button>
+            <hr>
+            <button id="att" onclick="btnAttacco()">Attacca</button>
+            <button id ="dif" onclick="btnDifendi()">Difendi</button>
             <div id="live"></div>
-            <div id="dmg"></div>
-            <div id="hp"></div>
         </div>
         <div class="player2">
             <img src="immagini/Scorpion.jpg">
