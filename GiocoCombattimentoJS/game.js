@@ -184,3 +184,7 @@ function coloreTurno()
         document.getElementById('turnButton').style.color = "black";
     }
 }
+function startGame() {
+    document.getElementById('introScreen').style.display = 'none'; // Nasconde lo schermo di introduzione
+    document.getElementById('base').style.display = "block";
+}

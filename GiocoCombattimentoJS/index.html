@@ -7,6 +7,10 @@
     <title>Gioco di combattimento</title>
 </head>
 <body>
+    <div id="introScreen">
+        <h1>Benvenuto!</h1>
+        <button onclick="startGame()">Inizia</button>
+    </div>
     <div class="container-fluid base">   
         <div class="game">
             <div class="player1">
@@ -29,7 +33,7 @@
             </div>
         </div>
         <div class="hpBar">
-            <div class="container d-flex justify-content-center align-items-center">
+            <div class="container d-flex justify-content-center align-items-center" id="containerHp1">
                 <div class="progress">
                     <div id="hpBar1" class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width:100%">
                         <h1 class="txtVita" id="vita1">100hp</h1>
@@ -39,7 +43,7 @@
             <div class="container" id="spazioVite">
                 <div id="btnRestart"></div>
             </div>
-            <div class="container d-flex justify-content-center align-items-center">
+            <div class="container d-flex justify-content-center align-items-center" id="containerHp2">
                 <div class="progress">
                     <div id="hpBar2" class="progress-bar bg-warning progress-bar-striped progress-bar-animated" style="width:100%">
                         <h1 class="txtVita" id="vita2">100hp</h1>

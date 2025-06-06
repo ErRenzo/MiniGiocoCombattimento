@@ -4,6 +4,26 @@ html, body {
     margin: 0;
     padding: 0;
 }
+#introScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+#introScreen h1 {
+    font-size: 80px;
+    margin-bottom: 10%;
+}
+#introScreen button{
+    padding: 10px 20px;
+    font-size: 20px;
+}
 .base{
     padding: 5%;
     width: 100%;
@@ -28,12 +48,13 @@ img{
 }
 .player1{
     width: 20%;
+    background-color: rgb(161, 161, 161);
 }
 .player2{
+    background-color: rgb(161, 161, 161);
     width: 20%;
 }
 .hpBar{
-    background-color: rgb(129, 128, 128);
     height: 10%;
     display: flex;
 }
@@ -58,9 +79,13 @@ img{
 #spazioVite{
     width: 60%;
     align-items: center;
+    background-color: rgb(129, 128, 128);
+    border-top: none;
 }
 .hpBar .container{
+    border-top: 2px solid black;
     width: 20%;
+    background-color: rgb(161, 161, 161);;
 }
 .progress{
     width: 100%;
