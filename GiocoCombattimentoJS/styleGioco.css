@@ -15,14 +15,27 @@ html, body {
     align-items: center;
     justify-content: center;
     z-index: 1;
+    background: radial-gradient(circle, rgb(90, 90, 90), black 100%);
 }
-#introScreen h1 {
+#introScreen h1{
     font-size: 80px;
     margin-bottom: 10%;
 }
 #introScreen button{
+    all: unset;
+    cursor: pointer;
+    box-shadow: 5px 5px 9px rgba(0,0,0,0.2);
+    background-color: rgb(82, 82, 82);
+    color: white;
     padding: 10px 20px;
     font-size: 20px;
+    transition: background-color 1s ease, color 1s ease;
+    font-family:'Franklin Gothic Medium';
+    letter-spacing: 3px;
+}
+#introScreen button:hover {
+    background-color: rgb(161, 161, 161);
+    color: black;
 }
 .base{
     padding: 5%;
@@ -90,4 +103,23 @@ img{
 .progress{
     width: 100%;
     height: 30px;
+}
+/* Effetto di scrittura */
+.typing {
+  width: fit-content;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid rgb(255, 255, 255); /* cursore */
+  font-family: monospace;
+  font-size: 24px;
+  animation: typing 2s steps(11) 2s infinite alternate, blink 0.5s step-end infinite;
+}
+
+@keyframes typing {
+  0%   { width: 0; }
+  100% { width: 11ch; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
 }
