@@ -8,6 +8,8 @@ let dif1 = false;
 let dif2 = false;
 // Turno
 function Turn(){
+    document.getElementById('att').hidden = false; // Mostra il bottone attacco
+    document.getElementById('dif').hidden = false; // Mostra il bottone difesa
     if(!turnoScelto)
     {
         const random = Math.floor(Math.random() * 2) + 1;
@@ -22,6 +24,7 @@ function Turn(){
             document.getElementById('turnWho').style.color = "yellow";
         }
         coloreTurno(); // Colore del turno attuale
+        sceltaArmaPlayer(); // Scelta dell'arma del player
         turnoScelto = true;
     }
     else{ // Se il turno è già stato scelto
@@ -71,6 +74,7 @@ function btnAttacco(){
             document.getElementById('turnWho').style.color = "blue";
             document.getElementById('live').innerHTML = "Il secondo giocatore ha attaccato il primo giocatore, infliggendo "+danno+" danni "+dimezzati+" !";
         }
+        sceltaArmaPlayer(); // Scelta dell'arma del player
         coloreTurno(); // Colore del turno attuale
         vitaDinamica(); // Aggiorna la vita dinamica dei player
         Vittoria(danno); // Controlla se uno dei due player ha vinto
@@ -101,6 +105,7 @@ function btnDifendi(){
             turno = 1;
             document.getElementById('turnWho').style.color = "blue";
         }
+        sceltaArmaPlayer(); // Scelta dell'arma del player
         coloreTurno(); // Colore del turno attuale
     }
     else
@@ -117,6 +122,8 @@ function Vittoria(danno)
         document.getElementById('live').innerHTML = "Il secondo giocatore ha vinto! Infliggendo al nemico " + danno + " danni!";
         document.getElementById('live').style.color = "yellow"; // Colore del testo della vittoria
         document.getElementById('live').style.fontSize = "30px"; // Dimensione del testo della vittoria
+        document.getElementById('live').style.height = "80%"; // Altezza del testo della vittoria
+        document.getElementById('live').style.transition = "color 0.5s ease, font-size 0.5s ease"; // Transizione del testo della vittoria
         document.getElementById('turn').hidden = true; // Nasconde il turno
         document.getElementById('att').hidden = true; // Nasconde il bottone attacco
         document.getElementById('dif').hidden = true; // Nasconde il bottone difesa
@@ -134,11 +141,14 @@ function Vittoria(danno)
         document.getElementById('live').innerHTML = "Il primo giocatore ha vinto! Infliggendo al nemico " + danno + " danni!";
         document.getElementById('live').style.color = "blue"; // Colore del testo della vittoria
         document.getElementById('live').style.fontSize = "30px"; // Dimensione del testo della vittoria
+        document.getElementById('live').style.height = "80%" // Altezza del testo della vittoria
+        document.getElementById('live').style.transition = "color 0.5s ease, font-size 0.5s ease"; // Transizione del testo della vittoria
         document.getElementById('turn').hidden = true; // Nasconde il turno
         document.getElementById('att').hidden = true; // Nasconde il bottone attacco
         document.getElementById('dif').hidden = true; // Nasconde il bottone difesa
         const bottone = document.createElement('button');
         bottone.style.backgroundColor = "blue"; // Colore del bottone
+        bottone.style.color = "white"; // Colore del testo del bottone
         bottone.innerHTML = "Inizia una nuova partita";
     
         bottone.addEventListener('click', function() {location.reload()}); // Ricarica la pagina per iniziare una nuova partita
@@ -184,7 +194,48 @@ function coloreTurno()
         document.getElementById('turnButton').style.color = "black";
     }
 }
-function startGame() {
-    document.getElementById('introScreen').style.display = 'none'; // Nasconde lo schermo di introduzione
-    document.getElementById('base').style.display = "block";
+// Inizio del gioco, nasconde il bottone di attacco e difesa
+function startGame() 
+{
+    document.getElementById('att').hidden = true; // Non mostra il bottone attacco
+    document.getElementById('dif').hidden = true; // Non mostra il bottone difesa
+    const intro = document.getElementById('introScreen');
+    intro.classList.add('fade-out');
+}
+// Scelta in colori dellle armi e degli scudi dei player
+function sceltaArmaPlayer()
+{
+    const divArmi = document.getElementById('att');
+    const divScudi = document.getElementById('dif');
+
+    const player1Arma = document.createElement('img');
+    player1Arma.src = "immagini/spadaBlu.png";
+    player1Arma.alt = "Spada Blu";
+    player1Arma.style.transform = "rotate(45deg)";
+    const player1Scudo = document.createElement('img');
+    player1Scudo.src = "immagini/scudoBlu.png";
+    player1Scudo.alt = "Scudo Blu";
+
+    const player2Arma = document.createElement('img');
+    player2Arma.src = "immagini/spadaGialla.png";
+    player2Arma.alt = "Spada Gialla";
+    player2Arma.style.transform = "rotate(45deg)";
+    const player2Scudo = document.createElement('img');
+    player2Scudo.src = "immagini/scudoGiallo.png";
+    player2Scudo.alt = "Scudo Giallo";
+
+    if(turno == 1) // Primo player
+    {
+        divArmi.innerHTML = ""; // Pulisce il div delle armi
+        divScudi.innerHTML = ""; // Pulisce il div degli scudi
+        divArmi.appendChild(player1Arma);
+        divScudi.appendChild(player1Scudo);
+    }
+    else // Secondo player
+    {
+        divArmi.innerHTML = ""; // Pulisce il div delle armi    
+        divScudi.innerHTML = ""; // Pulisce il div degli scudi
+        divArmi.appendChild(player2Arma);
+        divScudi.appendChild(player2Scudo);
+    }
 }

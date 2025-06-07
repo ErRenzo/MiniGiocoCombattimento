@@ -11,21 +11,23 @@
         <h1 class="typing">Benvenuto!</h1>
         <button onclick="startGame()">Inizia</button>
     </div>
-    <div class="container-fluid base">   
+    <div class="container-fluid base"> 
         <div class="game">
             <div class="player1">
                 <img src="immagini/blueStickManFighter.png">
             </div>
             <div class="gameIn">
-                <h1 style="color: brown;">Gioco di combattimento</h1>
-                <hr>
+                <div class="sezioneTitolo">
+                    <h1 id="titolo">Gioco di combattimento</h1>
+                </div>
                 <div id="turn">
                     <h1 id="turnWho">Il turno sarà dato al.....</h1>
                     <button id="turnButton" onclick="Turn()">Turno</button>
                 </div>
-                <hr>
-                <button id="att" onclick="btnAttacco()">Attacca</button>
-                <button id ="dif" onclick="btnDifendi()">Difendi</button>
+                <div class="sezioneButtonAzione">
+                    <button id="att" onclick="btnAttacco()"></button>
+                    <button id ="dif" onclick="btnDifendi()"></button>
+                </div>
                 <div id="live"></div>
             </div>
             <div class="player2">
