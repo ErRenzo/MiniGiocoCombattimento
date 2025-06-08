@@ -12,6 +12,7 @@ function Turn(){
     document.getElementById('dif').hidden = false; // Mostra il bottone difesa
     if(!turnoScelto)
     {
+        stato = ""; // Nessuno stato inizialmente
         const random = Math.floor(Math.random() * 2) + 1;
         turno = random;
         if ( random == 1 )
@@ -24,7 +25,7 @@ function Turn(){
             document.getElementById('turnWho').style.color = "yellow";
         }
         coloreTurno(); // Colore del turno attuale
-        sceltaArmaPlayer(); // Scelta dell'arma del player
+        sceltaArmaPlayer(stato); // Scelta dell'arma del player
         turnoScelto = true;
     }
     else{ // Se il turno è già stato scelto
@@ -37,7 +38,9 @@ function btnAttacco(){
     {
         danno = Math.floor(Math.random() * 20) + 1; // Danno casuale tra 1 e 20
         dannoDimezzato = Math.floor(danno / 2); // Danno dimezzato
+        stato = "attacco"; // Stato dell'azione
         let dimezzati = "";
+        let turnoAzione = turno; // Salva il turno attuale per la visualizzazione
         if(turno == 1) // Primo player
         {
             if(dif2) // Se il secondo player ha attivato la difesa
@@ -74,7 +77,7 @@ function btnAttacco(){
             document.getElementById('turnWho').style.color = "blue";
             document.getElementById('live').innerHTML = "Il secondo giocatore ha attaccato il primo giocatore, infliggendo "+danno+" danni "+dimezzati+" !";
         }
-        sceltaArmaPlayer(); // Scelta dell'arma del player
+        sceltaArmaPlayer(stato, turnoAzione); // Scelta dell'arma del player
         coloreTurno(); // Colore del turno attuale
         vitaDinamica(); // Aggiorna la vita dinamica dei player
         Vittoria(danno); // Controlla se uno dei due player ha vinto
@@ -87,6 +90,8 @@ function btnAttacco(){
 function btnDifendi(){
     if(turnoScelto)
     {
+        stato = "difesa"; // Stato dell'azione
+        let turnoAzione = turno; // Salva il turno attuale per la visualizzazione
         if(turno == 1) // Primo player
         {
             dif1 = true; // Difesa attivata
@@ -100,12 +105,12 @@ function btnDifendi(){
         {
             dif2 = true; // Difesa attivata
             document.getElementById('live').innerHTML = "Il secondo giocatore ha scelto di difendersi!";
-
+            
             document.getElementById('turnWho').innerHTML = "Turno del secondo player";
             turno = 1;
             document.getElementById('turnWho').style.color = "blue";
         }
-        sceltaArmaPlayer(); // Scelta dell'arma del player
+        sceltaArmaPlayer(stato, turnoAzione); // Scelta dell'arma del player
         coloreTurno(); // Colore del turno attuale
     }
     else
@@ -203,11 +208,13 @@ function startGame()
     intro.classList.add('fade-out');
 }
 // Scelta in colori dellle armi e degli scudi dei player
-function sceltaArmaPlayer()
+function sceltaArmaPlayer(stato, turnoAzione)
 {
+    // Crea i div per le armi e gli scudi
     const divArmi = document.getElementById('att');
     const divScudi = document.getElementById('dif');
 
+    // Crea le immagini delle armi e degli scudi per il primo player
     const player1Arma = document.createElement('img');
     player1Arma.src = "immagini/spadaBlu.png";
     player1Arma.alt = "Spada Blu";
@@ -216,6 +223,7 @@ function sceltaArmaPlayer()
     player1Scudo.src = "immagini/scudoBlu.png";
     player1Scudo.alt = "Scudo Blu";
 
+    // Crea le immagini delle armi e degli scudi per il secondo player
     const player2Arma = document.createElement('img');
     player2Arma.src = "immagini/spadaGialla.png";
     player2Arma.alt = "Spada Gialla";
@@ -224,18 +232,66 @@ function sceltaArmaPlayer()
     player2Scudo.src = "immagini/scudoGiallo.png";
     player2Scudo.alt = "Scudo Giallo";
 
-    if(turno == 1) // Primo player
+    if(turno == 1) // Primo player dopo aver fatto la azione
     {
         divArmi.innerHTML = ""; // Pulisce il div delle armi
         divScudi.innerHTML = ""; // Pulisce il div degli scudi
         divArmi.appendChild(player1Arma);
         divScudi.appendChild(player1Scudo);
+        if(stato !== "") // Se lo stato non è vuoto
+        {
+            azionePlayer(turnoAzione); // Crea l'immagine per l'azione del primo player
+        }
     }
-    else // Secondo player
+    else // Secondo player dopo aver fatto la azione
     {
         divArmi.innerHTML = ""; // Pulisce il div delle armi    
         divScudi.innerHTML = ""; // Pulisce il div degli scudi
         divArmi.appendChild(player2Arma);
         divScudi.appendChild(player2Scudo);
+
+        if(stato !== "") // Se lo stato non è vuoto
+        {
+            azionePlayer(turnoAzione); // Crea l'immagine per l'azione del secondo player
+        }
+    }
+}
+function azionePlayer(turnoAzione)
+{
+    if(turnoAzione == 1) // Primo player
+    {
+        // Crea l'immagine per lo stato del primo player
+        const player1Div = document.getElementById('player1');
+        const player1Stato = document.createElement('img');
+    
+        player1Div.innerHTML = ""; // Pulisce il div del primo player
+        
+        if(stato === "attacco") {
+            player1Stato.src = "immagini/stickmanBluSpada.png"; // Immagine dello stato di attacco del primo player
+            player1Stato.alt = "Attacco del primo player";
+        } 
+        else{ // Stato di difesa
+            player1Stato.src = "immagini/bluStickmanScudo.png"; // Immagine dello stato di difesa del primo player
+            player1Stato.alt = "Difesa del primo player";
+        }
+        player1Div.appendChild(player1Stato);
+    }
+    else // Secondo player
+    {
+        // Crea l'immagine per lo stato del secondo player
+        const player2Div = document.getElementById('player2');
+        const player2Stato = document.createElement('img');
+
+        player2Div.innerHTML = ""; // Pulisce il div del secondo player
+
+        if(stato === "attacco") {
+            player2Stato.src = "immagini/stickmanGialloSpada.png"; // Immagine dello stato di attacco del secondo player
+            player2Stato.alt = "Attacco del secondo player";
+        } 
+        else{ // Stato di difesa
+            player2Stato.src = "immagini/gialloStickmanScudo.png"; // Immagine dello stato di difesa del secondo player
+            player2Stato.alt = "Difesa del secondo player";
+        }
+        player2Div.appendChild(player2Stato);
     }
 }

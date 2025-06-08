@@ -182,7 +182,7 @@ img{
 @keyframes blink {
     50% { border-color: transparent }
 }
-/* Effetto di dissolvenza per il button*/
+/* Effetto di salto per il button*/
 @keyframes bounce {
     0%, 20%, 60%, 100% {
         transform: translateY(0px);
