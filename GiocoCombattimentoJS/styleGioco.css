@@ -52,6 +52,20 @@ img{
     color: black;
 }
 /*Stile del gioco in se*/
+/* Informazioni sul gioco */
+#info {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 5%;
+    width: 3%;
+    z-index: 0;
+    background-color: rgb(134, 134, 134);
+}
+#info img {
+    width: 100%;
+    height: 100%;
+}
 /*La base occupa tutto lo schermo*/
 .base{
     background-image: url('immagini/CampoDiBattaglia.jpg');
@@ -76,9 +90,9 @@ img{
     width: 60%;
     height: 100%;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.87);
     background-blend-mode: darken;
-    overflow:auto;
+    overflow: auto;
 }
 .sezioneTitolo{
     display: flex;
@@ -163,6 +177,18 @@ img{
 #live{
     height: 20%;
 }
+/*Stile modal*/
+.modal-content {
+    background-color: rgb(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 50px;
+    padding: 20px;
+    text-align: center;
+}
+.modal-title {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
 /* Effetto di scrittura per il titolo del introduzione*/
 .typing {
     width: fit-content;
@@ -173,7 +199,6 @@ img{
     font-size: 24px;
     animation: typing 2s steps(11) 2s infinite alternate, blink 0.5s step-end infinite;
 }
-
 @keyframes typing {
     0%   { width: 0; }
     100% { width: 11ch; }

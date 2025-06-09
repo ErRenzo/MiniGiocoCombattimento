@@ -4,10 +4,12 @@ let turno = 0; // 1 = primo player, 2 = secondo player
 const player1 = {
     Hp: 100,
     dif : false, // Difesa non attiva
+    controAttacco: 0 // Contro attacco non attivo
 };
 const player2 = {
     Hp: 100,
     dif : false, // Difesa non attiva
+    controAttacco: 0 // Contro attacco non attivo
 };
 // Turno
 function Turn(){
@@ -35,17 +37,26 @@ function btnAttacco()
 {    
     danno = Math.floor(Math.random() * 20) + 1; // Danno casuale tra 1 e 20
     let stato = "attacco"; // Stato dell'azione
-    let dimezzatiStr = "";
+    let dimezzatiStr = ""; // Stringa per i danni dimezzati
     let turnoAzione = turno; // Salva il turno attuale per la visualizzazione
+    let controAttaccoPlayer1 = ""; // Variabile per il contro attacco del primo player 
+    let controAttaccoPlayer2 = ""; // Variabile per il contro attacco del secondo player
     if(turno == 1) // Primo player
     {
         if(player2.dif) // Se il secondo player ha attivato la difesa
         {
-            dannoDimezzato = Math.floor(danno / 2); // Danno dimezzato
+            let dannoDimezzato = Math.floor(danno / 2); // Danno dimezzato
             player2.Hp -= dannoDimezzato; // Danno dimezzato
             player2.dif = false; // Difesa disattivata
             dimezzatiStr = "dimezzati";
             danno = dannoDimezzato; // Danno da visualizzare
+            player2.controAttacco = player2.controAttacco + 1; // Incremento le possibilità di contro attacco
+            if(player2.controAttacco >= 3) // Se il secondo player ha fatto 3 difese ricevendo attacchi
+            {
+                alert("Contro attacco del secondo player!"); // Messaggio di contro attacco
+                controAttaccoPlayer2 = controAttaccoFunction(dannoDimezzato); // Chiamata alla funzione di contro attacco
+                player2.controAttacco = 0; // Reset del contatore del contro attacco
+            }
         }
         else
         {
@@ -55,7 +66,7 @@ function btnAttacco()
         document.getElementById('turnWho').innerHTML = "Turno del secondo player";
         turno = 2;
         document.getElementById('turnWho').style.color = "yellow";
-        document.getElementById('live').innerHTML = "Il primo giocatore ha attaccato il secondo giocatore, infliggendo "+danno+" danni "+dimezzatiStr+" !";
+        document.getElementById('live').innerHTML = "Il primo giocatore ha attaccato il secondo giocatore, infliggendo "+danno+" danni "+dimezzatiStr+" ! " + controAttaccoPlayer2; // Messaggio di attacco
     }
     else // Secondo player
     {
@@ -66,6 +77,13 @@ function btnAttacco()
             player1.dif = false; // Difesa disattivata
             dimezzatiStr = "dimezzati";
             danno = dannoDimezzato; // Danno da visualizzare
+            player1.controAttacco = player1.controAttacco + 1; // Incremento le possibilità di contro attacco
+            if(player1.controAttacco >= 3) // Se il primo player ha fatto 3 difese ricevendo attacchi
+            {
+                alert("Contro attacco del primo player!"); // Messaggio di contro attacco
+                controAttaccoPlayer1 = controAttaccoFunction(dannoDimezzato); // Chiamata alla funzione di contro attacco
+                player1.controAttacco = 0; // Reset del contatore del contro attacco
+            }
         }
         else
         {
@@ -75,7 +93,7 @@ function btnAttacco()
         document.getElementById('turnWho').innerHTML = "Turno del primo player";
         turno = 1;
         document.getElementById('turnWho').style.color = "blue";
-        document.getElementById('live').innerHTML = "Il secondo giocatore ha attaccato il primo giocatore, infliggendo "+danno+" danni "+dimezzatiStr+" !";
+        document.getElementById('live').innerHTML = "Il secondo giocatore ha attaccato il primo giocatore, infliggendo "+danno+" danni "+dimezzatiStr+" ! " + controAttaccoPlayer1; // Messaggio di attacco
     }
     sceltaArmaPlayer(stato, turnoAzione); // Scelta dell'arma del player
     coloreTurno(); // Colore del turno attuale
@@ -297,4 +315,44 @@ function azionePlayer(turnoAzione, statoPersonaggio)
         }
         player2Div.appendChild(player2Stato);
     }
+}
+// Funzione per il contro attacco
+function controAttaccoFunction(dannoRicevuto) {
+    let strControAttacco = "";
+    let who = ""; // Chi ha fatto il contro attacco
+    let controDanno = Math.floor(Math.random() * 20) + 1; // Danno casuale tra 1 e 20
+    let recuperoVita = Math.floor((dannoRicevuto / 2) + dannoRicevuto); // Recupero vita pari a tre mezzi del danno ricevuto
+    let recuperoPieno = ""; // Recupero vita piena
+    if(turno == 1) // Attacco del primo player, controattacco del secondo player
+    {
+        if(player2.hp + recuperoVita > 100) // Se il secondo player recupera più di 100 punti vita
+        {
+            player2.hp = 100; // Imposta la vita massima a 100
+            recuperoPieno = "recuperando tutta la vita"; // Recupero vita piena
+        }
+        else
+        {
+            player2.Hp += recuperoVita; // Recupera vita
+            recuperoPieno = "recuperando " + recuperoVita + " punti vita"; // Recupero vita parziale
+        }
+        player1.Hp -= controDanno; // Danno al primo player
+        who = "secondo player"; // Chi ha fatto il contro attacco
+    }
+    else // Secondo player
+    {
+        if(player1.Hp + recuperoVita > 100) // Se il primo player recupera più di 100 punti vita
+        {
+            player1.Hp = 100; // Imposta la vita massima a 100
+            recuperoPieno = "recuperando tutta la vita"; // Recupero vita piena
+        }
+        else
+        {
+            player1.Hp += recuperoVita; // Recupera vita
+            recuperoPieno = "recuperando " + recuperoVita + " punti vita"; // Recupero vita parziale
+        }
+        player2.Hp -= controDanno; // Danno al secondo player
+        who = "primo player"; // Chi ha fatto il contro attacco
+    }
+    strControAttacco = "Ma il "+who+" ha fatto un contro attacco, infliggendo " + controDanno + " danni al primo player, " + recuperoPieno + "!"; // Messaggio di contro attacco
+    return strControAttacco; // Ritorna il messaggio di contro attacco
 }
